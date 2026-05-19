@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div id="app" class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+
+
+
+
+
+<div id="app" class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    
+    <div class="flex border-b mb-6">
+        <button 
+            @click="currentTab = 'applicant'" 
+            :class="['px-4 py-2 font-semibold', currentTab === 'applicant' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500']">
+            Applicant Form
+        </button>
+        <button 
+            @click="currentTab = 'admin'" 
+            :class="['px-4 py-2 font-semibold', currentTab === 'admin' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500']">
+            Administrator Dashboard (${ applications.length })
+        </button>
+    </div>
+
+    <div v-if="successMessage" class="mb-4 p-3 bg-green-100 text-green-700 rounded-md">
+        Application submitted successfully!
+    </div>
+
+    <div v-if="currentTab === 'applicant'">
+        <h2 class="text-xl font-bold mb-4">Job Application Form</h2>
+        <form @submit.prevent="submitApplication" class="space-y-4">
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium">Firstname</label>
+                    <input type="text" v-model="form.firstname" placeholder="enter first name" required class="mt-1 block w-full border rounded-md p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">last name</label>
+                    <input type="text" v-model="form.last name" placeholder="enter last name" required class="mt-1 block w-full border rounded-md p-2">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Date of Birth (DOB)</label>
+                <input type="date" v-model="form.dob" required class="mt-1 block w-full border rounded-md p-2">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Address</label>
+                <textarea v-model="form.address" required rows="3" class="mt-1 block w-full border rounded-md p-2"></textarea>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Phone Number</label>
+                <input type="tel" v-model="form.phone" required class="mt-1 block w-full border rounded-md p-2">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Gender</label>
+                <div class="space-x-4">
+                    <label><input type="radio" v-model="form.gender" value="Male" required> Male</label>
+                    <label><input type="radio" v-model="form.gender" value="Female"> Female</label>
+                    <label><input type="radio" v-model="form.gender" value="Other"> Other</label>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">National ID</label>
+                <input type="text" v-model="form.nationalId" required class="mt-1 block w-full border rounded-md p-2">
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700">
+                Submit Application
+            </button>
+        </form>
+    </div>
+
+    <div v-if="currentTab === 'admin'">
+        <h2 class="text-xl font-bold mb-4">Submitted Applications</h2>
+        
+        <div v-if="applications.length === 0" class="text-center py-8 text-gray-500 bg-gray-50 rounded-lg border border-dashed">
+            No applications have been submitted yet.
+        </div>
+
+        <div v-else class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 border">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">DOB</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Gender</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">National ID</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr v-for="(app, index) in applications" :key="index">
+                        <td class="px-4 py-2 whitespace-nowrap">${ app.firstname } ${ app.surname }</td>
+                        <td class="px-4 py-2 whitespace-nowrap">${ app.dob }</td>
+                        <td class="px-4 py-2 whitespace-nowrap">${ app.phone }</td>
+                        <td class="px-4 py-2 whitespace-nowrap">${ app.gender }</td>
+                        <td class="px-4 py-2 whitespace-nowrap">${ app.nationalId }</td>
+                        <td class="px-4 py-2 max-w-xs truncate">${ app.address }</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
